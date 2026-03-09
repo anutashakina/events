@@ -676,6 +676,7 @@
 
 .profile-state-card {
     margin-top: 0.6rem;
+    margin-bottom: 1.5rem;
     padding: 1.25rem;
     border-radius: 1rem;
     border: 1px dashed rgba(13, 71, 161, 0.2);
@@ -744,5 +745,7 @@
     overflow: hidden;
     text-overflow: ellipsis;
 }
+
+
 
 
