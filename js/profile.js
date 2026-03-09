@@ -26,7 +26,8 @@ document.addEventListener("DOMContentLoaded", () => {
             "Требуется вход",
             "Список ваших мероприятий доступен после авторизации.",
             "Войти",
-            "login.html"
+            "login.html",
+            "guest"
         );
         profileCounter.textContent = "Записей: 0";
         return;
@@ -57,7 +58,8 @@ document.addEventListener("DOMContentLoaded", () => {
             "Пока нет записей",
             "Вы еще не записались ни на одно мероприятие.",
             "Перейти к мероприятиям",
-            "index.html"
+            "index.html",
+            "empty"
         );
         return;
     }
@@ -101,12 +103,15 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    function showState(title, text, actionLabel, actionHref) {
+    function showState(title, text, actionLabel, actionHref, stateType = "empty") {
         profileStateTitle.textContent = title;
         profileStateText.textContent = text;
         profileStateAction.textContent = actionLabel;
         profileStateAction.href = actionHref;
-        profileStateCard.classList.remove("d-none");
+        profileStateCard.classList.remove("d-none", "profile-state-card--guest");
+        if (stateType === "guest") {
+            profileStateCard.classList.add("profile-state-card--guest");
+        }
         profileEventsGrid.innerHTML = "";
     }
 
@@ -228,19 +233,16 @@ document.addEventListener("DOMContentLoaded", () => {
             "спортивные": "sport",
             "спортивное": "sport",
             "спорт": "sport",
-
             fun: "fun",
             entertainment: "fun",
             "развлекательные": "fun",
             "развлекательное": "fun",
             "развлечение": "fun",
-
             study: "study",
             education: "study",
             "учебные": "study",
             "учебное": "study",
             "учеба": "study",
-
             ceremony: "ceremony",
             "торжественные": "ceremony",
             "торжественное": "ceremony",
@@ -352,4 +354,3 @@ document.addEventListener("DOMContentLoaded", () => {
             .replace(/'/g, "&#039;");
     }
 });
-

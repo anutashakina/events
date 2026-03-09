@@ -263,3 +263,31 @@
         max-width: 100%;
     }
 }
+
+.footer-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.footer-logout {
+    display: none;
+    align-items: center;
+    border: 1px solid var(--blue-line-strong);
+    background: var(--blue-soft);
+    color: var(--blue-900);
+    border-radius: 999px;
+    padding: 0.35rem 0.85rem;
+    font-size: 0.88rem;
+    font-weight: 600;
+}
+
+.footer-logout.is-visible {
+    display: inline-flex;
+}
+
+.footer-logout:hover {
+    background: var(--blue-soft-hover);
+}
