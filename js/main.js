@@ -356,10 +356,14 @@ document.addEventListener("DOMContentLoaded", () => {
                 "beforeend",
                 `
                     <div class="carousel-item ${isActive}">
-                        <img src="${escapeHtml(event.image)}" class="d-block w-100" alt="${escapeHtml(event.title)}">
-                        <div class="carousel-caption">
-                            <h2>${escapeHtml(event.title)}</h2>
-                        </div>
+                        <a class="carousel-slide-link" href="event.html?id=${encodeURIComponent(event.id)}" aria-label="Открыть мероприятие ${escapeHtml(event.title)}">
+                            <img src="${escapeHtml(event.image)}" class="d-block w-100" alt="${escapeHtml(event.title)}">
+                            <div class="carousel-caption">
+                                <div class="carousel-caption-card">
+                                    <h2>${escapeHtml(event.title)}</h2>
+                                </div>
+                            </div>
+                        </a>
                     </div>
                 `
             );

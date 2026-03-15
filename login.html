@@ -58,7 +58,7 @@
                                 <a class="forgot-link text-decoration-none" href="index.html">Восстановить пароль</a>
                             </div>
 
-                            <button class="btn btn-success btn-lg w-100 auth-btn" type="submit">
+                            <button class="btn btn-lg w-100 auth-btn site-button" type="submit">
                                 Войти
                             </button>
 
@@ -98,13 +98,51 @@
                             </div>
 
                             <div class="form-check small">
-                                <input class="form-check-input" type="checkbox" id="agree" required>
-                                <label class="form-check-label" for="agree">
-                                    Какие-то правила?
+                                <input class="form-check-input" type="checkbox" id="isExternalStudent">
+                                <label class="form-check-label" for="isExternalStudent">
+                                    Не являюсь учеником гимназии
                                 </label>
                             </div>
 
-                            <button class="btn btn-success btn-lg w-100 auth-btn" type="submit">
+                            <div class="row g-2" id="schoolFields">
+                                <div class="col-12 col-sm-6">
+                                    <div class="form-floating">
+                                        <input
+                                            type="number"
+                                            class="form-control"
+                                            id="studentClass"
+                                            placeholder="Класс"
+                                            min="1"
+                                            max="11"
+                                            required
+                                        >
+                                        <label for="studentClass">Класс</label>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-sm-6">
+                                    <div class="form-floating">
+                                        <input
+                                            type="text"
+                                            class="form-control"
+                                            id="studentLetter"
+                                            placeholder="Буква"
+                                            pattern="[А-ЯЁ]"
+                                            maxlength="1"
+                                            required
+                                        >
+                                        <label for="studentLetter">Буква</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-check small">
+                                <input class="form-check-input" type="checkbox" id="agree" required>
+                                <label class="form-check-label" for="agree">
+                                    В случае указания недостоверной информации несу ответственность за возможные последствия.
+                                </label>
+                            </div>
+
+                            <button class="btn btn-lg w-100 auth-btn site-button" type="submit">
                                 Зарегистрироваться
                             </button>
 
@@ -119,7 +157,7 @@
 <footer class="footer auth-footer">
     <div class="container footer-row">
         <p class="footer-text mb-0">Вход в аккаунт</p>
-        <button type="button" class="footer-logout" data-auth-logout>Выйти</button>
+        <button type="button" class="footer-logout subtle-button" data-auth-logout>Выйти</button>
     </div>
 </footer>
 
@@ -127,9 +165,3 @@
 <script src="js/session.js"></script>
 </body>
 </html>
-
-
-
-
-
-
