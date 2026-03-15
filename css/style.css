@@ -288,6 +288,10 @@
         margin: 0.75rem;
     }
 
+    .login-button--profile {
+        display: none;
+    }
+
     #carouselExampleCaptions .carousel-item {
         aspect-ratio: 4 / 3;
     }
@@ -606,6 +610,18 @@
     align-content: center;
 }
 
+.event-meta-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 32px;
+    padding: 0.42rem 0.72rem;
+    font-size: 0.95rem;
+    line-height: 1;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
 .event-page-container {
     max-width: 1200px;
 }
@@ -675,15 +691,9 @@
 }
 
 .goal-badge {
-    display: inline-flex;
-    align-items: center;
-    padding: 0.42rem 0.72rem;
-    border-radius: 999px;
     background: var(--blue-soft);
     color: var(--blue-900);
-    border: 1px solid var(--blue-line);
     font-weight: 600;
-    line-height: 1;
 }
 
 .event-action-button {

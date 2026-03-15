@@ -100,7 +100,7 @@ document.addEventListener("DOMContentLoaded", () => {
     els.description.textContent = normalized.description;
 
     els.goalBadge.textContent = goalLabel(normalized.goal);
-    els.goalBadge.className = "badge text-bg-light border rounded-pill goal-badge";
+    els.goalBadge.className = "badge text-bg-light border rounded-pill event-meta-badge goal-badge";
     els.placeBadge.textContent = placeLabel(normalized.place);
     els.dateBadge.textContent = formatDate(normalized.date);
 
