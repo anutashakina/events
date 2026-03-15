@@ -1,4 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
+    const auth = window.SchoolAuth;
     const loginForm = document.getElementById("loginForm");
     const signupForm = document.getElementById("signupForm");
     const loginMessage = document.getElementById("loginMessage");
@@ -9,6 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const studentLetterInput = document.getElementById("studentLetter");
 
     if (
+        !auth ||
         !loginForm ||
         !signupForm ||
         !loginMessage ||
@@ -20,6 +22,8 @@ document.addEventListener("DOMContentLoaded", () => {
     ) {
         return;
     }
+
+    auth.ensureTestUsers();
 
     toggleSchoolFields();
 
@@ -67,7 +71,7 @@ document.addEventListener("DOMContentLoaded", () => {
             .toLowerCase();
         const password = String(document.getElementById("loginPass")?.value || "");
 
-        const allUsers = getArrayFromStorage("users");
+        const allUsers = auth.getUsers();
         const foundUser = allUsers.find(
             (user) => String(user.email || "").toLowerCase() === email
         );
@@ -82,21 +86,11 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-        const currentUser = {
-            id: String(foundUser.id),
-            email: String(foundUser.email),
-            firstName: String(foundUser.firstName || ""),
-            lastName: String(foundUser.lastName || ""),
-            isExternal: Boolean(foundUser.isExternal),
-            studentClass: foundUser.studentClass ?? null,
-            studentLetter: foundUser.studentLetter ?? null
-        };
-
-        localStorage.setItem("currentUser", JSON.stringify(currentUser));
-        showMessage(loginMessage, "Вход выполнен. Перенаправляем...", true);
+        const currentUser = auth.setCurrentUser(foundUser);
+        showMessage(loginMessage, "Вы вошли в аккаунт.", true);
 
         setTimeout(() => {
-            window.location.href = "index.html";
+            auth.redirectToUserHome(currentUser);
         }, 450);
     });
 
@@ -118,7 +112,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const studentClass = studentClassInput.value.trim();
         const studentLetter = studentLetterInput.value.trim().toUpperCase();
 
-        const allUsers = getArrayFromStorage("users");
+        const allUsers = auth.getUsers();
         const alreadyExists = allUsers.some(
             (user) => String(user.email || "").toLowerCase() === email
         );
@@ -152,30 +146,22 @@ document.addEventListener("DOMContentLoaded", () => {
             lastName,
             email,
             password,
+            role: "student",
             isExternal,
             studentClass: isExternal ? null : Number(studentClass),
             studentLetter: isExternal ? null : studentLetter,
             createdAt: new Date().toISOString()
         };
 
-        allUsers.push(newUser);
-        localStorage.setItem("users", JSON.stringify(allUsers));
+        const normalizedUser = auth.normalizeUser(newUser);
+        allUsers.push(normalizedUser);
+        auth.setUsers(allUsers);
 
-        const currentUser = {
-            id: String(newUser.id),
-            email: newUser.email,
-            firstName: newUser.firstName,
-            lastName: newUser.lastName,
-            isExternal: newUser.isExternal,
-            studentClass: newUser.studentClass,
-            studentLetter: newUser.studentLetter
-        };
-
-        localStorage.setItem("currentUser", JSON.stringify(currentUser));
-        showMessage(signupMessage, "Регистрация успешна. Перенаправляем...", true);
+        const currentUser = auth.setCurrentUser(normalizedUser);
+        showMessage(signupMessage, "Регистрация завершена.", true);
 
         setTimeout(() => {
-            window.location.href = "index.html";
+            auth.redirectToUserHome(currentUser);
         }, 450);
     });
 
@@ -212,17 +198,6 @@ document.addEventListener("DOMContentLoaded", () => {
         el.classList.add("d-none");
         el.classList.remove("auth-form-msg--error", "auth-form-msg--success");
     }
-
-    function getArrayFromStorage(key) {
-        try {
-            const raw = localStorage.getItem(key);
-            const parsed = JSON.parse(raw);
-            return Array.isArray(parsed) ? parsed : [];
-        } catch {
-            return [];
-        }
-    }
-
     function createId() {
         if (window.crypto && typeof window.crypto.randomUUID === "function") {
             return window.crypto.randomUUID();

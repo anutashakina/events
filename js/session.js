@@ -1,6 +1,24 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const currentUser = getObjectFromStorage("currentUser");
+    const auth = window.SchoolAuth;
+    if (!auth) {
+        return;
+    }
+
+    auth.ensureTestUsers();
+
+    const currentUser = auth.getCurrentUser();
     const isLoggedIn = Boolean(currentUser && currentUser.id);
+    const profileHomeHref = isLoggedIn ? auth.getHomePageForUser(currentUser) : "profile.html";
+
+    const profileLinks = document.querySelectorAll('a[href="profile.html"]');
+    profileLinks.forEach((link) => {
+        link.setAttribute("href", profileHomeHref);
+    });
+
+    const proposalLinks = document.querySelectorAll("[data-proposal-link]");
+    proposalLinks.forEach((link) => {
+        link.setAttribute("href", auth.PROPOSAL_FORM_URL);
+    });
 
     const loginButtons = document.querySelectorAll(".login-button");
     loginButtons.forEach((button) => {
@@ -12,7 +30,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const displayName = getDisplayName(currentUser);
         button.textContent = displayName;
-        button.setAttribute("href", "profile.html");
+        button.setAttribute("href", profileHomeHref);
         button.classList.add("login-button--profile");
         button.setAttribute("title", `Профиль: ${displayName}`);
     });
@@ -28,7 +46,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         button.addEventListener("click", () => {
-            localStorage.removeItem("currentUser");
+            auth.setCurrentUser(null);
             window.location.href = "login.html";
         });
     });
@@ -44,15 +62,5 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const email = String(user.email || "").trim();
         return email || "Профиль";
-    }
-
-    function getObjectFromStorage(key) {
-        try {
-            const raw = localStorage.getItem(key);
-            const parsed = JSON.parse(raw);
-            return parsed && typeof parsed === "object" ? parsed : null;
-        } catch {
-            return null;
-        }
     }
 });

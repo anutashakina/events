@@ -19,7 +19,7 @@
             <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar"
                  aria-labelledby="offcanvasNavbarLabel">
                 <div class="offcanvas-header">
-                    <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Мероприятия гимназии</h5>
+                    <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Мероприятия</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                 </div>
 
@@ -29,10 +29,13 @@
                             <a class="nav-link mx-lg-2" href="index.html">Главная</a>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link mx-lg-2" href="index.html#eventsExplorer">Мероприятия</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link mx-lg-2" href="profile.html">Личный кабинет</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link mx-lg-2" href="login.html">Стать организатором</a>
+                            <a class="nav-link mx-lg-2" href="#" data-proposal-link target="_blank" rel="noopener noreferrer">Предложить мероприятие</a>
                         </li>
                     </ul>
                 </div>
@@ -154,7 +157,7 @@
 
 <footer class="footer">
     <div class="container footer-row">
-        <p class="footer-text mb-0">Мероприятия гимназии</p>
+        <p class="footer-text mb-0">Мероприятия</p>
         <button type="button" class="footer-logout subtle-button" data-auth-logout>Выйти</button>
     </div>
 </footer>
@@ -163,6 +166,7 @@
         integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
         crossorigin="anonymous"></script>
 
+<script src="js/auth-core.js"></script>
 <script src="js/event.js"></script>
 <script src="js/session.js"></script>
 </body>

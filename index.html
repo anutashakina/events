@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Мероприятия гимназии</title>
+    <title>Мероприятия</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <link href="css/style.css" rel="stylesheet">
@@ -15,7 +15,7 @@
             <a class="navbar-brand me-auto" href="index.html">Мероприятия</a>
             <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
                 <div class="offcanvas-header">
-                    <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Мероприятия гимназии</h5>
+                    <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Мероприятия</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Закрыть"></button>
                 </div>
                 <div class="offcanvas-body">
@@ -24,10 +24,13 @@
                             <a class="nav-link mx-lg-2 active" aria-current="page" href="index.html">Главная</a>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link mx-lg-2" href="index.html#eventsExplorer">Мероприятия</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link mx-lg-2" href="profile.html">Личный кабинет</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link mx-lg-2" href="login.html">Стать организатором</a>
+                            <a class="nav-link mx-lg-2" href="#" data-proposal-link target="_blank" rel="noopener noreferrer">Предложить мероприятие</a>
                         </li>
                     </ul>
                 </div>
@@ -59,11 +62,10 @@
         </div>
     </section>
 
-    <section class="events-explorer py-5">
+    <section class="events-explorer py-5" id="eventsExplorer">
         <div class="container">
             <div class="events-shell">
                 <div class="events-intro">
-                    <span class="events-kicker">Подборка мероприятий</span>
                     <h2 class="events-title">Найти подходящее мероприятие</h2>
                 </div>
 
@@ -163,6 +165,16 @@
                                             data-value="stadium">Стадион
                                     </button>
                                 </li>
+                                <li>
+                                    <button class="dropdown-item custom-filter-item place-option" type="button"
+                                            data-value="gym1">Спортивный зал №1
+                                    </button>
+                                </li>
+                                <li>
+                                    <button class="dropdown-item custom-filter-item place-option" type="button"
+                                            data-value="gym2">Спортивный зал №2
+                                    </button>
+                                </li>
                             </ul>
                         </div>
                     </div>
@@ -193,7 +205,7 @@
 
 <footer class="footer">
     <div class="container footer-row">
-        <p class="footer-text mb-0">Мероприятия гимназии</p>
+        <p class="footer-text mb-0">Мероприятия</p>
         <button type="button" class="footer-logout subtle-button" data-auth-logout>Выйти</button>
     </div>
 </footer>
@@ -201,6 +213,7 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
         crossorigin="anonymous"></script>
+<script src="js/auth-core.js"></script>
 <script src="js/main.js"></script>
 <script src="js/session.js"></script>
 </body>
