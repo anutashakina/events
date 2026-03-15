@@ -143,6 +143,38 @@
         };
     }
 
+    function getPreferredUser(existingUser, nextUser) {
+        if (!existingUser) {
+            return nextUser;
+        }
+
+        if (!nextUser) {
+            return existingUser;
+        }
+
+        const defaultTestUser = TEST_USERS.find(
+            (testUser) => String(testUser.id || "") === String(existingUser.id || nextUser.id || "")
+        );
+        const defaultEmail = String(defaultTestUser?.email || "").toLowerCase();
+        const existingEmail = String(existingUser.email || "").toLowerCase();
+        const nextEmail = String(nextUser.email || "").toLowerCase();
+
+        if (defaultEmail) {
+            const existingIsDefault = existingEmail === defaultEmail;
+            const nextIsDefault = nextEmail === defaultEmail;
+
+            if (existingIsDefault && !nextIsDefault) {
+                return nextUser;
+            }
+
+            if (!existingIsDefault && nextIsDefault) {
+                return existingUser;
+            }
+        }
+
+        return nextUser;
+    }
+
     function setUsers(users) {
         localStorage.setItem("users", JSON.stringify(users));
     }
@@ -182,20 +214,56 @@
             .map((user) => normalizeUser(user))
             .filter(Boolean);
 
-        const usersByEmail = new Map(
-            storedUsers.map((user) => [String(user.email || "").toLowerCase(), user])
-        );
+        const usersById = new Map();
+        const usersByEmail = new Map();
+
+        storedUsers.forEach((user) => {
+            const userId = String(user.id || "");
+            const email = String(user.email || "").toLowerCase();
+            const existingById = userId ? usersById.get(userId) : null;
+            const preferredUser = getPreferredUser(existingById, user);
+
+            if (
+                existingById &&
+                existingById !== preferredUser &&
+                existingById.email &&
+                existingById.email !== preferredUser.email
+            ) {
+                usersByEmail.delete(existingById.email);
+            }
+
+            if (userId) {
+                usersById.set(userId, preferredUser);
+            }
+
+            if (preferredUser.email) {
+                usersByEmail.set(preferredUser.email, preferredUser);
+            }
+        });
 
         TEST_USERS.forEach((testUser) => {
             const normalizedTestUser = normalizeUser(testUser);
+            const userId = String(normalizedTestUser.id || "");
             const email = normalizedTestUser.email;
 
-            if (!usersByEmail.has(email)) {
+            if (userId && usersById.has(userId)) {
+                return;
+            }
+
+            if (email && usersByEmail.has(email)) {
+                return;
+            }
+
+            if (userId) {
+                usersById.set(userId, normalizedTestUser);
+            }
+
+            if (email) {
                 usersByEmail.set(email, normalizedTestUser);
             }
         });
 
-        const mergedUsers = Array.from(usersByEmail.values());
+        const mergedUsers = Array.from(usersById.values());
         setUsers(mergedUsers);
 
         const currentUser = normalizeUser(getObjectFromStorage("currentUser"));
