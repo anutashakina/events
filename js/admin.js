@@ -67,8 +67,6 @@ document.addEventListener("DOMContentLoaded", () => {
         proposalLink.href = auth.PROPOSAL_FORM_URL;
     }
 
-    let editingTeacherId = "";
-    let editingStudentId = "";
     let selectedClass = "all";
 
     title.textContent = "Список мероприятий";
@@ -84,6 +82,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const lastName = String(document.getElementById("teacherLastName").value || "").trim();
         const email = String(document.getElementById("teacherEmail").value || "").trim().toLowerCase();
         const passwordInput = String(document.getElementById("teacherPassword").value || "").trim();
+        const editingTeacherId = String(document.getElementById("teacherEditingId").value || "").trim();
 
         if (!firstName || !lastName || !email) {
             showMessage(teacherMessage, "Заполните имя, фамилию и почту учителя.", false);
@@ -213,6 +212,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const isExternal = document.getElementById("studentIsExternal").checked;
         const studentClass = String(document.getElementById("studentClassInput").value || "").trim();
         const studentLetter = String(document.getElementById("studentLetterInput").value || "").trim().toUpperCase();
+        const editingStudentId = String(document.getElementById("studentEditingId").value || "").trim();
 
         if (!firstName || !lastName || !email) {
             showMessage(studentMessage, "Заполните имя, фамилию и почту ученика.", false);
@@ -587,7 +587,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     return;
                 }
 
-                editingTeacherId = String(teacher.id);
+                document.getElementById("teacherEditingId").value = String(teacher.id);
                 document.getElementById("teacherFirstName").value = teacher.firstName || "";
                 document.getElementById("teacherLastName").value = teacher.lastName || "";
                 document.getElementById("teacherEmail").value = teacher.email || "";
@@ -634,7 +634,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     .getUsers()
                     .filter((user) => String(user.id) !== String(teacherId));
 
-                if (String(editingTeacherId) === String(teacherId)) {
+                if (String(document.getElementById("teacherEditingId").value || "") === String(teacherId)) {
                     resetTeacherForm();
                 }
 
@@ -717,7 +717,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     return;
                 }
 
-                editingStudentId = String(student.id);
+                document.getElementById("studentEditingId").value = String(student.id);
                 document.getElementById("studentFirstName").value = student.firstName || "";
                 document.getElementById("studentLastName").value = student.lastName || "";
                 document.getElementById("studentEmail").value = student.email || "";
@@ -753,7 +753,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     .getRegistrations()
                     .filter((registration) => String(registration.userId) !== String(studentId));
 
-                if (String(editingStudentId) === String(studentId)) {
+                if (String(document.getElementById("studentEditingId").value || "") === String(studentId)) {
                     resetStudentForm();
                 }
 
@@ -766,7 +766,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function resetTeacherForm() {
-        editingTeacherId = "";
+        document.getElementById("teacherEditingId").value = "";
         teacherForm.reset();
         document.getElementById("teacherFormTitle").textContent = "Добавить учителя";
         document.getElementById("teacherSubmitText").textContent = "Добавить учителя";
@@ -776,7 +776,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function resetStudentForm() {
-        editingStudentId = "";
+        document.getElementById("studentEditingId").value = "";
         studentForm.reset();
         document.getElementById("studentFormTitle").textContent = "Добавить ученика";
         document.getElementById("studentSubmitText").textContent = "Добавить ученика";
